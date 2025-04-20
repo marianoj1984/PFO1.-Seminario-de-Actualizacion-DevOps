@@ -1,12 +1,57 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hola Mundo</title>
+  <meta charset="UTF-8">
+  <title>Formulario de Usuarios</title>
 </head>
-<body>
-    <h1>Hola Mundo</h1>
-    <p>Este es un ejemplo básico de una página HTML.</p>
+<body>  
+  <h1>Ingreso de Datos Personales</h1>
+  <form id="formUsuario">
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" placeholder="Ingrese su nombre" required>
+
+    <label for="apellido">Apellido:</label>
+    <input type="text" id="apellido" name="apellido" placeholder="Ingrese su apellido" required>
+
+    <label for="dni">DNI:</label>
+    <input type="number" id="dni" name="dni" placeholder="Ingrese su DNI" required>
+
+    <label for="usuario">Nombre de usuario:</label>
+    <input type="text" id="usuario" name="usuario" placeholder="Ingrese su usuario" required>
+
+    <label for="password">Contraseña:</label>
+    <input type="password" id="password" name="password" placeholder="Ingrese su contraseña" required>
+
+    <button type="submit">Enviar</button>
+  </form>  
+
+  <script>
+    document.getElementById('formUsuario').addEventListener('submit', function(event) {
+      event.preventDefault(); // Evita el envío tradicional del formulario
+
+      const datos = {
+        nombre: document.getElementById('nombre').value,
+        apellido: document.getElementById('apellido').value,
+        dni: document.getElementById('dni').value,
+        usuario: document.getElementById('usuario').value,
+        password: document.getElementById('password').value
+      };
+
+      fetch('procesar.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(datos)
+      })
+      .then(response => response.text())
+      .then(respuesta => {
+        alert("Respuesta del servidor: " + respuesta);
+      })
+      .catch(error => {
+        console.error('Error en la petición:', error);
+      });
+    });
+  </script>
 </body>
 </html>
